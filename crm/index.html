@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance CRM Revamp | Shaivi Goel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.svg">
+<style>
+:root{--bg:#fdfdfc;--black:#141414;--gray-700:#3d3d3a;--gray-500:#77766f;--gray-300:#b4b2a9;--gray-100:#ebeae5;--wash:#f4f3ee;--radius:10px;--transition:.18s ease}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--black);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--black);outline-offset:3px}
+.case-topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;background:rgba(253,253,252,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--gray-100)}
+.case-topbar-name{font-size:.9rem;font-weight:600;letter-spacing:.02em}.case-topbar-links{display:flex;gap:2rem}.case-topbar-links a{font-size:.82rem;font-weight:500;letter-spacing:.04em;text-decoration:underline;text-underline-offset:3px}.case-topbar-links a:hover{color:var(--gray-500)}
+.case-shell{display:grid;grid-template-columns:200px minmax(0,1000px);column-gap:1.25rem;justify-content:center;max-width:100%;margin:0 auto}
+.case-nav{position:sticky;top:64px;align-self:start;height:calc(100vh - 64px);overflow-y:auto;padding:2rem 1rem 2rem .75rem;border-right:1px solid var(--gray-100)}
+.case-nav-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--gray-300);margin-bottom:1.1rem}.case-nav ul{display:flex;flex-direction:column;gap:.8rem;list-style:none}.case-nav a{font-size:.88rem;color:var(--gray-500);transition:color var(--transition)}.case-nav a:hover,.case-nav a.active{color:var(--black)}.case-nav a.active{font-weight:500}
+.case-content{width:100%;max-width:1000px;margin:0 auto;padding:2rem 1.25rem 4rem}.case-hero-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:450;letter-spacing:-.02em;line-height:1.25;margin-bottom:1.25rem}.case-meta-strip{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem}.case-tag{font-size:.8rem;padding:.32rem .8rem;border-radius:999px;background:var(--gray-100);color:var(--gray-700)}
+.case-section{padding-top:1.75rem;margin-top:1.75rem;border-top:1px solid var(--gray-100)}.case-section:first-of-type{border-top:none;margin-top:0;padding-top:0}.case-section h2{font-size:1.4rem;font-weight:500;letter-spacing:-.01em;margin-bottom:.85rem}.case-section h3{font-size:.98rem;font-weight:600;margin:1.1rem 0 .5rem}.case-section p{font-size:1rem;line-height:1.65;color:var(--gray-700);margin-bottom:.85rem}
+/* Horizontal product stories. The page itself always scrolls vertically; the flow is the only horizontal region. */
+.story-intro{display:grid;grid-template-columns:90px 1fr;gap:1rem;align-items:start;margin:1.15rem 0 .5rem}.story-number{font-size:.78rem;color:var(--gray-300);font-variant-numeric:tabular-nums;padding-top:.2rem}.story-intro h3{font-size:1.12rem;font-weight:500;margin:0 0 .4rem}.story-intro p{margin:0;max-width:650px}
+.flow-wrap{position:relative;margin:1rem 0 1.4rem}.flow-scroller{display:flex;gap:1.5rem;overflow-x:auto;scrollbar-gutter:stable;scroll-snap-type:x mandatory;padding:.35rem .25rem 1rem .05rem;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-color:var(--gray-300) transparent;scrollbar-width:auto}.flow-scroller::-webkit-scrollbar{height:8px}.flow-scroller::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:999px}.flow-item{flex:0 0 min(100%,1000px);scroll-snap-align:start}.flow-image{background:var(--wash);border:1px solid var(--gray-100);border-radius:10px;overflow:hidden}.flow-image img{display:block;width:100%;height:auto;max-width:none}.flow-progress{height:2px;background:var(--gray-100);margin:.35rem 0 0 40px;width:calc(100% - 40px);overflow:hidden}.flow-progress::before{content:'';display:block;width:var(--progress,18%);height:100%;background:var(--gray-300);transition:width .12s linear}
+/* Process work is deliberately vertical: the slides are supporting evidence, not another interaction. */
+.process-block{margin-top:1.25rem}.process-block h3{font-size:1rem;font-weight:500;margin:0 0 .6rem}.process-block p{max-width:650px}.process-shot{margin:.7rem 0 1.5rem;background:var(--wash);border:1px solid var(--gray-100);border-radius:10px;overflow:hidden}.process-shot.source-slide{background:transparent;border:0;border-radius:0}.process-shot img{display:block;width:100%;height:auto}.visual-subhead{font-size:1.15rem;font-weight:500;letter-spacing:-.015em;margin:2rem 0 .8rem}.process-grid{display:block;width:100%}.process-grid > div{display:block;width:100%;margin-bottom:1.5rem}.process-grid .process-shot{margin:0}.process-caption{font-size:.8rem;color:var(--gray-500);margin:.55rem 0 1.4rem}
+.workspace-grid{display:block;margin-top:1.25rem}.workspace-card{border:0;border-radius:0;overflow:visible;background:transparent}.workspace-card img{display:block;width:100%;height:auto}.workspace-card-copy{padding:.85rem 0 0;background:transparent;border:0}.workspace-card-copy h3{font-size:1rem;font-weight:600;margin:0 0 .3rem}.workspace-card-copy p{font-size:.88rem;line-height:1.5;color:var(--gray-500);margin:0}.workspace-note{font-size:.78rem;color:var(--gray-300);margin-top:.8rem}
+.case-footer-nav{display:flex;justify-content:flex-end;align-items:center;padding-top:1.75rem;margin-top:1.75rem;border-top:1px solid var(--gray-100)}.case-footer-nav a{font-size:.9rem;font-weight:500}.case-footer-nav a:hover{color:var(--gray-500)}
+@media(max-width:900px){.case-shell{grid-template-columns:1fr}.case-nav{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--gray-100);padding:1.25rem 1.5rem}.case-nav ul{flex-direction:row;flex-wrap:wrap;gap:.6rem 1.1rem}.case-content{padding:1.5rem 1rem 3rem}.case-topbar{padding:1rem 1.25rem}.case-topbar-links{gap:1.25rem}.flow-item{flex-basis:96%}.process-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.story-intro{grid-template-columns:48px 1fr}.flow-item{flex-basis:96%}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="case-topbar"><span class="case-topbar-name">SHAIVI GOEL</span><div class="case-topbar-links"><a href="../index.html#works">WORK</a><a href="../resume.pdf" target="_blank" rel="noopener noreferrer">RESUME</a><a href="https://www.linkedin.com/in/shaivi-goelui/" target="_blank" rel="noopener noreferrer">LINKEDIN</a></div></header>
+<div class="case-shell">
+<nav class="case-nav"><div class="case-nav-label">Content</div><ul>
+<li><a href="#overview">Overview</a></li><li><a href="#pm-flow">PM journey</a></li><li><a href="#trader-flow">Trader journey</a></li><li><a href="#research">Research</a></li><li><a href="#key-findings">Key findings</a></li><li><a href="#personas">Personas</a></li><li><a href="#hmw">How might we</a></li><li><a href="#feature-explorations">Features</a></li><li><a href="#ideation">Ideation</a></li><li><a href="#results">Project results</a></li>
+</ul></nav>
+<main class="case-content">
+<h1 class="case-hero-title">Revamping an internal CRM around how traders actually work, from the morning prep to the meeting follow-up.</h1>
+<div class="case-meta-strip"><span class="case-tag">D. E. Shaw</span><span class="case-tag">Fintech UX</span><span class="case-tag">Enterprise CRM</span><span class="case-tag">Trading Workflows</span></div>
+
+<section class="case-section" id="overview"><h2>Overview</h2><div class="process-shot source-slide"><img src="assets/deconstructing-brief.png" alt="Deconstructing the brief"></div><p>The CRM had grown across teams into a fragmented experience. The redesign focused on bringing the information traders and other stakeholders need around meetings, contacts, organisations and follow-ups into one connected workflow.</p></section>
+
+
+
+<section class="case-section" id="pm-workspace"><h2>Portfolio manager workspace</h2><p>The full desk view before zooming into Sonia’s journey.</p><div class="workspace-grid"><div class="workspace-card"><img src="assets/workspace-pm.png" alt="Portfolio manager workspace showing meetings, team activity, deal conversion, opportunity radar and the live meeting panel"></div></div></section>
+
+<section class="case-section" id="pm-flow"><h2>Sonia, the portfolio manager</h2><p>The user is a portfolio manager. She wants a bird’s-eye read on the whole desk, so she can steer each person toward what’s actually winning.</p><h3>The full journey</h3>
+<div class="flow-wrap"><div class="flow-scroller">
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-036.png" alt="Portfolio manager desk overview"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-037.png" alt="Team activity heatmap"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-038.png" alt="Deal conversion funnel"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-039.png" alt="Opportunity radar"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-040.png" alt="Top themes across meetings"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-041.png" alt="Team calendar overview"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/pm-042.png" alt="Meeting opened from calendar"></div></article>
+</div><div class="flow-progress" aria-hidden="true"></div></div></section>
+<section class="case-section" id="trader-flow"><h2>Theo, the trader</h2><p>The user is a trader. He has just started the day and wants to quickly get up to speed with the tasks and meetings ahead.</p><h3>The full journey</h3><div class="flow-wrap"><div class="flow-scroller">
+<article class="flow-item"><div class="flow-image"><img src="assets/trader-023.png" alt="Meetings widget showing what Theo has ahead"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/trader-024.png" alt="Meeting detail opened by Theo"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/trader-026.png" alt="Tailored meeting preparation view"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/trader-028.png" alt="Contact history in the CRM"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/trader-030.png" alt="Organisation history in the CRM"></div></article>
+<article class="flow-item"><div class="flow-image"><img src="assets/trader-032.png" alt="Meeting outcome logged in the CRM"></div></article>
+</div><div class="flow-progress" aria-hidden="true"></div></div></section>
+
+<section class="case-section" id="research"><h2>Market Research</h2><p>The research and synthesis that shaped the future-state CRM direction.</p>
+<div class="process-block"><h3>Research &amp; understanding</h3><div class="process-shot"><img src="assets/process-005.png" alt="Research and understanding"></div></div>
+<div class="process-block"><h3>Market research</h3><div class="process-shot"><img src="assets/process-006.png" alt="Market research"></div></div>
+<div class="process-block"><h3>Primary research</h3><div class="process-shot"><img src="assets/process-007.png" alt="Primary research"></div></div>
+</section>
+<section class="case-section" id="key-findings"><h2>Key findings</h2><div class="process-shot source-slide"><img src="assets/key-findings.png" alt="Key takeaways from product understanding research"></div></section>
+
+<section class="case-section" id="personas"><h2>User Personas</h2><p>The personas made the different jobs around the same relationship system explicit before moving into feature and workflow decisions.</p><div class="process-grid"><div><div class="process-shot"><img src="assets/process-009.png" alt="User persona Theo Lawson"></div><div class="process-caption">Trader persona</div></div><div><div class="process-shot"><img src="assets/process-010.png" alt="Additional CRM user personas"></div><div class="process-caption">Additional user roles</div></div></div></section>
+
+<section class="case-section" id="hmw"><h2>How might we</h2><div class="process-shot source-slide"><img src="assets/hmw.png" alt="How might we statements"></div></section>
+
+<section class="case-section" id="feature-explorations"><h2>Feature explorations</h2><div class="process-shot source-slide"><img src="assets/feature-explorations-1.png" alt="Feature exploration concepts, first slide"></div><div class="process-shot source-slide"><img src="assets/feature-explorations-2.png" alt="Feature exploration concepts, second slide"></div></section>
+
+<section class="case-section" id="ideation"><h2>Evaluated layouts</h2><div class="process-shot source-slide"><img src="assets/process-017.png" alt="Evaluated layouts"></div><h2>High-impact, low-effort ideas ready for production</h2><div class="process-shot source-slide"><img src="assets/process-019.png" alt="High-impact, low-effort ideas ready for production"></div></section>
+
+<section class="case-section" id="results"><h2>Project results</h2><div class="process-shot source-slide"><img src="assets/project-results.png" alt="Project results comparing the CRM before and after the revamp"></div></section>
+
+<div class="case-footer-nav"><a href="../index.html#works">Back to work →</a></div>
+</main></div>
+<script>
+const sections=document.querySelectorAll('.case-section');const navLinks=document.querySelectorAll('.case-nav a');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){navLinks.forEach(l=>l.classList.remove('active'));const link=document.querySelector(`.case-nav a[href="#${entry.target.id}"]`);if(link)link.classList.add('active')}})},{rootMargin:'-20% 0px -70% 0px'});sections.forEach(s=>observer.observe(s));
+// Only Shift + wheel moves a story sideways. Normal wheel always keeps page scrolling vertically.
+document.querySelectorAll('.flow-scroller').forEach(scroller=>{const progress=scroller.parentElement.querySelector('.flow-progress');const update=()=>{const max=scroller.scrollWidth-scroller.clientWidth;const pct=max>0?Math.max(8,Math.min(100,(scroller.scrollLeft/max)*100)):100;if(progress)progress.style.setProperty('--progress',pct+'%')};scroller.addEventListener('scroll',update,{passive:true});scroller.addEventListener('wheel',e=>{if(e.shiftKey && Math.abs(e.deltaY)>Math.abs(e.deltaX)){scroller.scrollLeft+=e.deltaY;e.preventDefault()}},{passive:false});update()});
+</script>
+</body></html>

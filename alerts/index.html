@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bond Alerting Infrastructure | Shaivi Goel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <style>
+  body { background-image: none; }
+  .case-topbar { position:sticky; top:0; z-index:100; background:rgba(255,255,255,.95); backdrop-filter:blur(12px); display:flex; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; border-bottom: 1px solid var(--gray-100); }
+  .case-topbar-name { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.02em; }
+  .case-topbar-links { display: flex; gap: 2rem; }
+  .case-topbar-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; text-decoration: underline; text-underline-offset: 3px; color: var(--black); }
+  .case-topbar-links a:hover { color: var(--gray-500); }
+
+  /* Center the case-study layout so the sticky nav is not pinned to the viewport edge. */
+  .case-shell {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1000px);
+    column-gap: 1.25rem;
+    justify-content: center;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .case-nav {
+    position: sticky;
+    top: 64px;
+    align-self: start;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    padding: 2rem 1rem 2rem 0.75rem;
+    border-right: 1px solid var(--gray-100);
+  }
+  .case-nav-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gray-300); margin-bottom: 1.1rem; }
+  .case-nav ul { display: flex; flex-direction: column; gap: 0.8rem; list-style: none; }
+  .case-nav a { font-size: 0.88rem; color: var(--gray-500); transition: color var(--transition); }
+  .case-nav a:hover { color: var(--black); }
+  .case-nav a.active { color: var(--black); font-weight: 500; }
+
+  .case-content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  @media (max-width: 900px) {
+    .case-shell { grid-template-columns: 1fr; }
+    .case-nav { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--gray-100); padding: 1.25rem 1.5rem; }
+    .case-nav ul { flex-direction: row; flex-wrap: wrap; gap: 0.6rem 1.1rem; }
+  }
+
+  .case-hero-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 450; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 1.25rem; }
+  .case-meta-strip { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .case-tag { font-size: 0.8rem; padding: 0.32rem 0.8rem; border-radius: 999px; background: var(--gray-100); color: var(--gray-700); }
+
+  .case-section { padding-top: 1.75rem; margin-top: 1.75rem; border-top: 1px solid var(--gray-100); }
+  .case-section:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+  .case-section h2 { font-size: 1.4rem; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 0.85rem; }
+  .case-section h3 { font-size: 0.98rem; font-weight: 600; margin: 1.1rem 0 0.5rem; }
+  .case-section p { font-size: 1rem; line-height: 1.65; color: var(--gray-700); margin-bottom: 0.85rem; }
+  .case-section ul { margin: 0.4rem 0 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .case-section ul li { font-size: 0.98rem; line-height: 1.6; color: var(--gray-700); padding-left: 1.1rem; position: relative; }
+  .case-section ul li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; border-radius: 50%; background: var(--gray-300); }
+  .callout { background: var(--gray-100); border-radius: var(--radius); padding: 1rem 1.2rem; margin: 1rem 0; }
+  .callout .label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-500); margin-bottom: 0.3rem; }
+  .callout p { margin-bottom: 0; color: var(--black); }
+
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.85rem; margin: 0.85rem 0 1.1rem; }
+  .tool-card { border: 1px solid var(--gray-100); border-radius: var(--radius); padding: 0.9rem 1rem; }
+  .tool-card .tool-name { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .tool-card .tool-desc { font-size: 0.82rem; color: var(--gray-500); line-height: 1.5; }
+
+  /* Images shown as-is: no border, no outline, no radius, minimal spacing */
+  .shot { width: 100%; margin: 0.75rem 0 1.25rem; }
+  .shot img { width: 100%; display: block; }
+  .shot-caption { font-size: 0.85rem; color: var(--gray-500); margin-top: -0.6rem; margin-bottom: 1.25rem; }
+
+  .case-footer-nav { display: flex; justify-content: space-between; padding-top: 1.75rem; margin-top: 1.75rem; border-top: 1px solid var(--gray-100); }
+  .case-footer-nav a { font-size: 0.9rem; font-weight: 500; }
+  .case-footer-nav a:hover { color: var(--gray-500); }
+
+  /* Evaluation image gets a bit more room than a standard shot */
+  .shot-large { width: calc(100% + 4rem); margin-left: -2rem; margin-right: -2rem; }
+
+  /* Design GIFs: larger, easier-to-read frames while retaining the horizontal scroller. */
+  .gif-scroller {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.5rem 0 1rem;
+    margin: 0.75rem 0 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gif-scroller::-webkit-scrollbar { height: 6px; }
+  .gif-scroller::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 999px; }
+  .gif-item {
+    flex: 0 0 min(88%, 820px);
+    width: min(88%, 820px);
+    scroll-snap-align: start;
+  }
+  .gif-item img { width: 100%; display: block; }
+  .gif-item .shot-caption { margin-top: 0.6rem; margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .case-content { padding: 1.5rem 1rem 3rem; }
+    .gif-item { width: 100%; flex-basis: 100%; }
+    .case-topbar { padding: 1rem 1.25rem; }
+    .case-topbar-links { gap: 1.25rem; }
+    .shot-large { width: 100%; margin-left: 0; margin-right: 0; }
+  }
+</style>
+
+<style>
+.research-themes { margin-top: 28px; }
+.research-themes h3 { margin-bottom: 18px; }
+.research-themes ol { padding-left: 28px; }
+.research-themes li { margin: 14px 0; }
+</style>
+
+
+<style>
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2.75rem;
+  margin: 1.25rem 0 1.5rem;
+}
+.results-head {
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid;
+}
+.results-head.before { color: #356cff; border-color: #356cff; }
+.results-head.after { color: #70927a; border-color: #70927a; }
+.results-row { display: contents; }
+.results-row > div {
+  min-height: 4.6rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--gray-700);
+}
+@media (max-width: 700px) {
+  .results-grid { grid-template-columns: 1fr; column-gap: 0; }
+  .results-head.after { margin-top: 1.25rem; }
+  .results-row { display: block; }
+  .results-row > div { min-height: auto; }
+}
+</style>
+
+
+<style>
+.case-footer-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+</style>
+
+</head>
+<body>
+
+  <div class="case-topbar">
+    <span class="case-topbar-name">SHAIVI GOEL</span>
+    <div class="case-topbar-links">
+      <a href="../index.html#works">WORK</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener noreferrer">RESUME</a>
+      <a href="https://www.linkedin.com/in/shaivi-goelui/" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+    </div>
+  </div>
+
+  <div class="case-shell">
+    <nav class="case-nav">
+      <div class="case-nav-label">Content</div>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#secondary-research">Secondary Research</a></li>
+        <li><a href="#primary-research">Primary Research</a></li>
+        <li><a href="#defining">Defining</a></li>
+        <li><a href="#ideations">Ideations</a></li>
+        <li><a href="#designs">Designs</a></li>
+        <li><a href="#review">Review</a></li>
+      </ul>
+    </nav>
+
+  <main class="case-content">
+
+    <h1 class="case-hero-title">Designing an alerting system for traders, portfolio managers, and analysts in the US, to bring relevant, actionable alerts into legacy financial systems.</h1>
+
+    <div class="case-meta-strip">
+      <span class="case-tag">D. E. Shaw</span>
+      <span class="case-tag">Fintech UX</span>
+      <span class="case-tag">Alerting Systems</span>
+      <span class="case-tag">Trading Workflows</span>
+    </div>
+
+    <section class="case-section" id="overview">
+      <h2>Overview</h2>
+
+      <h3>Deconstructing the Brief</h3>
+      <p></p>
+      <div class="shot">
+        <img src="alert2im/deconstruction.png" alt="Deconstructing the brief">
+      </div>
+
+      <h3>Scope and Context</h3>
+      <p></p>
+      <div class="callout">
+        <div class="label">Context &amp; Constraints</div>
+        <p>Portfolio managers needing a bird's-eye view across sectors and strategies, plus traders and analysts managing securities across watchlists who need timely updates on important changes.</p>
+      </div>
+      <div class="shot">
+        <img src="alert2im/scope-and-context.png" alt="Scope and context">
+      </div>
+    </section>
+
+    <section class="case-section" id="secondary-research">
+      <h2>Secondary Research</h2>
+
+      <h3>Product Understanding</h3>
+      <p>Before moving into design, it was essential to understand the current architecture of how alerts were triggered, stored, and delivered across internal platforms. The range of triggers each tool supported spanned from simple price levels to complex news and strategy queries.</p>
+      <div class="shot">
+        <img src="alert2im/product-und.png" alt="Product understanding">
+      </div>
+
+      <h3>Competitive Study</h3>
+      <p>I audited how existing tools in the market handle alerting, since users were already stitching several of these together by hand.</p>
+      <div class="tool-grid">
+        <div class="tool-card"><div class="tool-name">TradingView</div><div class="tool-desc">Price, indicator/chart-based, drawing, strategy (Pine)</div></div>
+        <div class="tool-card"><div class="tool-name">ThinkOrSwim</div><div class="tool-desc">Price condition, portfolio metric, calendar event, news, rating change</div></div>
+        <div class="tool-card"><div class="tool-name">Bloomberg</div><div class="tool-desc">News, price/data</div></div>
+        <div class="tool-card"><div class="tool-name">LSEG (Eikon)</div><div class="tool-desc">Research-based, event-based alerts</div></div>
+      </div>
+
+      <h3>Creating an alert across platforms</h3>
+      <div class="shot">
+        <img src="alert2im/creating-alert.png" alt="Creating an alert across platforms">
+      </div>
+      <p class="shot-caption">Creating an alert across platforms.</p>
+
+      <h3>Types of Alerts</h3>
+      <div class="shot">
+        <img src="alert2im/types-of-alerts.png" alt="Types of alerts">
+      </div>
+      <p class="shot-caption">Different types of alerts we had to account for.</p>
+    </section>
+
+    <section class="case-section" id="primary-research">
+      <h2>Primary Research</h2>
+<p>Speaking directly with portfolio managers and traders revealed that their biggest pain point wasn't a lack of features, but a lack of unity. When an alert fired, they needed context immediately without breaking their workflow to open a secondary app.</p>
+<ul>
+  <li><strong>One entry point:</strong> creating, managing, and acting on an alert should never require switching tools</li>
+  <li><strong>Flexible conditions:</strong> support everything from a simple price level to multi-condition, news-based triggers</li>
+</ul>
+<div class="research-themes">
+  <h3>Key Themes that emerged</h3>
+  <ol>
+    <li>Traders get alerts for a whole desk but only care about <strong>4 to 5 names</strong>, so they want fewer, more relevant alerts.</li>
+    <li>We have no <strong>single place to catch earnings and news</strong> on a security.</li>
+    <li>There’s no way to <strong>custom create our own alerts</strong>.</li>
+    <li>Alerts come from the backend today, so the biggest ask is a simple way to <strong>choose which alerts you get</strong>.</li>
+    <li>The alert badge keeps increasing number but nothing ever pops.</li>
+    <li>The same widget has to work across both <strong>trading and research workflows</strong>, so it must stay flexible.</li>
+  </ol>
+</div>
+</section>
+
+    <section class="case-section" id="defining">
+      <h2>Defining</h2>
+
+      <h3>How Might We</h3>
+      <p>How might we create a single source of direction for alerts, enabling users to discover, manage, and act on relevant information without switching between tools?</p>
+
+      <h3>User Personas</h3>
+      <p>I built three personas to represent the range of people who'd rely on this widget day to day:</p>
+      <div class="shot">
+        <img src="alert2im/user-persona.png" alt="User Personas">
+      </div>
+    </section>
+
+    <section class="case-section" id="ideations">
+      <h2>Ideations</h2>
+
+      <h3>Paper Prototyping &amp; Ideation</h3>
+      <p>I began by sketching low-fidelity ideas of how the widget could dock into the existing interface. The goal was to keep it unobtrusive but easily expandable when creating complex, multi-condition alerts.</p>
+      <div class="shot">
+        <img src="alert2im/paper-proto.png" alt="Paper prototypes and sketches">
+      </div>
+
+      <div class="shot">
+        <img src="alert2im/ideation1.png" alt="Ideation exploration 1">
+      </div>
+      <div class="shot">
+        <img src="alert2im/ideation2.png" alt="Ideation exploration 2">
+      </div>
+
+      <h3>Evaluation</h3>
+      <p>We evaluated the initial concepts against our design principles. The winning direction relied on a sticky side-panel approach that users could toggle, ensuring they always had a clear view of their primary workspace.</p>
+      <div class="shot shot-large">
+        <img src="alert2im/evaluation.png" alt="Evaluation of concepts">
+      </div>
+    </section>
+
+    <section class="case-section" id="designs">
+      <h2>Designs</h2>
+      <p>The final designs focused on the core flow: pick a security (multi-select supported), set the condition and trigger, choose a priority, and create. The panel supports stacking conditions with AND/OR logic for more advanced alerts.</p>
+
+      <div class="gif-scroller">
+        <div class="gif-item">
+          <img src="alerts gif/alertgif1.gif" alt="Design workflow 1">
+          <p class="shot-caption">Creating an alert: searching and selecting a security, setting standard conditions.</p>
+        </div>
+        <div class="gif-item">
+          <img src="alerts gif/alertgif2.gif" alt="Design workflow 2">
+          <p class="shot-caption">Configuring advanced logic with stacked triggers.</p>
+        </div>
+        <div class="gif-item">
+          <img src="alerts gif/alertgif3.gif" alt="Design workflow 3">
+          <p class="shot-caption">The alerts feed: surfacing active triggers based on priority.</p>
+        </div>
+        <div class="gif-item">
+          <img src="alerts gif/alertgif4.gif" alt="Design workflow 4">
+          <p class="shot-caption">Acting on an alert directly from the feed (e.g. creating an RFQ).</p>
+        </div>
+        <div class="gif-item">
+          <img src="alerts gif/alertgif5.gif" alt="Design workflow 5">
+          <p class="shot-caption">Managing and editing active alerts in bulk.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section" id="review">
+      <h2>Project Results</h2>
+
+      <div class="results-grid">
+        <div class="results-head before">Before Alerts Component</div>
+        <div class="results-head after">After Alerts Component</div>
+
+        <div class="results-row">
+          <div>Hardcoded alerts with no customization<br>irrelevant alerts received in bulk</div>
+          <div>Only relevant alerts on the SPNs users care<br>about reach them</div>
+        </div>
+
+        <div class="results-row">
+          <div>Alerts limited to Trace, Missing Locate, and<br>RFQs</div>
+          <div>Alerts across news, calendar events, mentions,<br>and metrics</div>
+        </div>
+
+        <div class="results-row">
+          <div>No way to set target prices for multiple SPNs<br>across watchlists</div>
+          <div>Set target prices across watchlists with ease</div>
+        </div>
+
+        <div class="results-row">
+          <div>No way to control which alerts you receive</div>
+          <div>A dedicated Manage Alerts view to control<br>which alerts surface</div>
+        </div>
+      </div>
+
+      
+
+      
+    </section>
+
+    <div class="case-footer-nav"><a href="../crm/index.html">Next project &rarr;</a></div>
+
+  </main>
+  </div>
+
+  <script>
+    const sections = document.querySelectorAll('.case-section');
+    const navLinks = document.querySelectorAll('.case-nav a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector(`.case-nav a[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>

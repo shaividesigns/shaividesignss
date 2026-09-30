@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shaivi Goel</title>
+<meta name="description" content="Shaivi Goel - Product Designer working across fintech, AI and complex workflows.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+
+
+  <header class="topbar">
+    <div class="identity">
+      <div class="stamp-wrap" aria-label="Shaivi postcard photo">
+        <div class="stamp"><img src="assets/shaivi-postcard.jpg" alt="Shaivi Goel outdoors"></div>
+      </div>
+      <div class="name">Shaivi Goel</div>
+    </div>
+    <div class="meta">
+      <span class="meta-item"><span class="pin icon"></span> India</span>
+      <span class="meta-item"><span class="clock icon"></span><span id="local-time">1:03 pm IST</span></span>
+      <a class="icon-link" href="#" onclick="copyEmail(event)" aria-label="Copy email" title="Copy email"><svg class="header-icon mail-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"></rect><path d="M4.5 7l7.5 6 7.5-6"></path></svg></a>
+      <a class="icon-link" href="resume.pdf" download="Shaivi-Goel-Resume.pdf" aria-label="Download resume"><svg class="header-icon doc-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8l4 4v13H6z"></path><path d="M14 3.5v4h4M8.5 12h7M8.5 15h7"></path></svg></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" id="home">
+      <h2>Who I am<span class="caret"></span></h2>
+      <div class="copy">
+        <p>I’m a product designer based in India, working at the intersection of fintech, AI, and complex workflows. I enjoy turning dense systems into clear, thoughtful product experiences, and I’m constantly exploring new ways to build with AI and vibe code along the way.</p>
+        <p>Away from screens, you’ll find me playing chess, practising yoga, or trekking.</p>
+      </div>
+    </section>
+
+    <section class="projects" id="projects">
+      <h2>Projects</h2>
+      <div class="project-list">
+        <a class="project-row" href="alerts/index.html"><span class="year">2026</span><span class="project-name">Bond Alerting Tool</span><span class="role">D.E. Shaw</span></a>
+        <a class="project-row" href="crm/index.html"><span class="year">2026</span><span class="project-name">CRM Tool for Traders</span><span class="role">D.E. Shaw</span></a>
+        <a class="project-row" href="vikasya/index.html"><span class="year">2025</span><span class="project-name">Founding Designer</span><span class="role">Vikasya</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="thanks">Thanks for stopping by my side of the internet.</p>
+  </footer>
+<script src="script.js"></script>
+
+<script>
+function copyEmail(e){
+  e.preventDefault();
+  const email = 'shaivi.designs@gmail.com';
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(email);
+  } else {
+    const t=document.createElement('textarea'); t.value=email; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove();
+  }
+  const el=e.currentTarget; 
+  const old=el.getAttribute('aria-label'); 
+  el.setAttribute('aria-label','Email copied'); 
+
+  let toast = el.querySelector('.toast-msg');
+  if (!toast) {
+    toast = document.createElement('span');
+    toast.className = 'toast-msg';
+    toast.textContent = 'Copied to clipboard!';
+    toast.style.position = 'absolute';
+    toast.style.bottom = '-32px';
+    toast.style.left = '50%';
+    toast.style.transform = 'translateX(-50%)';
+    toast.style.background = '#333';
+    toast.style.color = '#fff';
+    toast.style.padding = '4px 8px';
+    toast.style.borderRadius = '4px';
+    toast.style.fontSize = '12px';
+    toast.style.whiteSpace = 'nowrap';
+    toast.style.pointerEvents = 'none';
+    toast.style.transition = 'opacity 0.2s';
+    toast.style.zIndex = '10';
+    el.style.position = 'relative';
+    el.appendChild(toast);
+  }
+  toast.style.opacity = '1';
+
+  setTimeout(()=>{
+    el.setAttribute('aria-label',old||'Copy email');
+    toast.style.opacity = '0';
+  },2000);
+}
+</script>
+</body>
+</html>
